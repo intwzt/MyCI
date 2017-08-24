@@ -1,0 +1,11 @@
+---
+- name: copy directory to master service
+  copy:
+    src: ./roles/jenkins/files
+    dest: "{{ jenkins_workspaces }}"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+- name: run jenkins container
+  shell: cd {{ jenkins_workspaces }}files && docker-compose up -d
+
+

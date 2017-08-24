@@ -1,0 +1,24 @@
+---
+- hosts: master_service
+  roles:
+    - common
+    - jenkins
+- hosts: localhost
+  roles:
+    - slave-service
+- hosts: slave_service
+  roles:
+    - common
+  tasks:
+    - name: install java
+      become: yes
+      shell: yes | add-apt-repository ppa:webupd8team/java && apt-get update && dpkg --configure -a &&yes | apt-get install oracle-java8-installer
+    - name: copy slave.jar to vagrant home
+      copy:
+        src: "{{ slave }}"
+        dest: /home/vagrant/slave.jar
+        owner: vagrant
+        group: vagrant
+    - name: connect jenkins master slave
+      shell: nohup java -jar slave.jar -jnlpUrl http://{{ jenkins_master_ip }}:{{ jenkins_master_port }}/computer/{{ jenkins_slave_name }}/slave-agent.jnlp &
+

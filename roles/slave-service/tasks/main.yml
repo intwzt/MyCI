@@ -1,0 +1,9 @@
+---
+- name: create ansible_works_directory
+  file:
+    path: "{{ ansible_works_directory }}"
+    state: directory
+- name: init ubuntu vagrant box for test
+  shell: cd {{ ansible_works_directory }} && vagrant init ubuntu/trusty64
+- name: start ubuntu vagrant box for test
+  shell: cd {{ ansible_works_directory }} && vagrant up
