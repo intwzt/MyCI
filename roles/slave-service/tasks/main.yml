@@ -4,6 +4,8 @@
     path: "{{ ansible_works_directory }}"
     state: directory
 - name: init ubuntu vagrant box for test
-  shell: cd {{ ansible_works_directory }} && vagrant init ubuntu/trusty64
+  shell: cd {{ ansible_works_directory }} && vagrant init bento/ubuntu-16.04
+- name: copy Vagrantfile to ansible_works_directory
+  shell: cp ./roles/slave-service/files/Vagrantfile {{ ansible_works_directory }}/
 - name: start ubuntu vagrant box for test
   shell: cd {{ ansible_works_directory }} && vagrant up

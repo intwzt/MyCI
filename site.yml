@@ -1,8 +1,8 @@
----
-- hosts: master_service
-  roles:
-    - common
-    - jenkins
+#---
+#- hosts: master_service
+#  roles:
+#    - common
+#    - jenkins
 - hosts: localhost
   roles:
     - slave-service
@@ -10,9 +10,13 @@
   roles:
     - common
   tasks:
-    - name: install java
-      become: yes
-      shell: yes | add-apt-repository ppa:webupd8team/java && apt-get update && dpkg --configure -a &&yes | apt-get install oracle-java8-installer
+    - name: Install java
+      become: true
+      apt:
+        name: openjdk-8-jdk
+#    - name: install java
+#      become: yes
+#      shell: yes | add-apt-repository ppa:webupd8team/java && apt-get update && dpkg --configure -a &&yes | apt-get install oracle-java8-installer
     - name: copy slave.jar to vagrant home
       copy:
         src: "{{ slave }}"
